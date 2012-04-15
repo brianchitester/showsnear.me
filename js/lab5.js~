@@ -1,0 +1,45 @@
+$(document).ready(function() {
+
+	//geolocation functions
+	var lat;
+	var lon;
+	function initiate_geolocation() { 
+	    navigator.geolocation.getCurrentPosition(handle_geolocation_query);  
+	}  
+
+	function handle_geolocation_query(position){
+	    lat = position.coords.latitude;
+	    lon = position.coords.longitude;
+	}
+
+	
+		initiate_geolocation();
+		//compose url
+		var theurl = "http://maps.googleapis.com/maps/api/staticmap?center=" + lat + "," + lon + "&zoom=12&size=400x400&sensor=false";
+	
+		//set background image
+		$("#canvas").css("background-image", "url(" + theurl+ ")");
+		
+		//draw circle
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d");
+		var centerX = canvas.width / 2;
+		var centerY = canvas.height / 2;
+		var radius = 10;
+	 
+		context.beginPath();
+		context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+		context.fillStyle = "red";
+		context.fill();
+		context.lineWidth = 1;
+		context.strokeStyle = "black";
+		context.stroke();
+		
+		//add text
+		var x = centerX + 15;
+		var y = centerY - 15;
+	 
+	 	context.fillStyle = "black";
+		context.font = "14pt Calibri";
+		context.fillText("YOU ARE HEREish", x, y);
+});

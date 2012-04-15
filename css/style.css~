@@ -1,0 +1,15 @@
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+
+@media (max-width: 960px) {
+	body{
+		padding-top: 0px;
+	}
+}
+
+#mapcanvas{
+	width: 100%;
+	height: 500px;
+}
