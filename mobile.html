@@ -3,9 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>showsnear.me</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta name="description" content="find local events">
     <meta name="author" content="Brian Chitester, Dan Gilligan, Jeff Farrell, Jeongming Lee, Kurt Waltoc">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <!-- styles -->
     <link href="css/bootstrap.css" rel="stylesheet">  <!-- twitter bootstrap - http://twitter.github.com/bootstrap/ -->
@@ -20,7 +24,7 @@
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBbwfuP3d2nlHSMX0N3KtofN5MeHttWB4c&sensor=false"></script>
 	
 	<!-- Our script -->
-	<script type="text/javascript"src="js/script.js"></script>
+	<script type="text/javascript"src="js/mobile.js"></script>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -51,42 +55,20 @@
     </div>
 
     <div class="container">
-    	<div class="row">
-    		<p id="status"> </p>
-    	</div>
-    	<div class="row">
-    		<div class="span7">
-    			<div id="mapcanvas">
-    			</div>
-    		</div>
-    		<div class="span5">
-    			<h1>Upcoming shows near Troy</h1> <!--must change-->
-    			<p id="mainContent">Getting local shows and events...</p> <!--placeholder for event info -->
-    		</div>
-    	</div>
+		<div class="row">
+			<h3 id="upcoming">Upcoming shows near Troy</h3> <!--must change-->
+		</div>
 		
 		<div class="row">
-    		<div class="span12" id="dump">
-				<p> herp </p>
-    		</div>
+    		<div id="mapcanvas"></div>
+		</div>
+		<div class="row">
+			<p>ADSPACE</p>
+		</div>
+		<div class ="row">
+    		<p id="mainContent">Getting local shows and events...</p> <!--placeholder for event info -->
     	</div>
     	
-    	<footer>
-    		<div class="row">
-    			<div class="span3">
-    				<h3>something</h3>
-						<p id="herp"></p>
-    			</div>
-    			<div class="span4">
-    				<h3>something</h3>
-    			</div>
-    			<div class="span5">
-    				<h3>something</h3>
-    			</div>
-    		</div>
-    		
-    	</footer>
-
     </div> <!-- /container -->
 
     <!-- javascript - Placed at the end of the document so the pages load faster -->

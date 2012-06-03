@@ -3,13 +3,68 @@ body {
 	padding-bottom: 40px;
 }
 
-@media (max-width: 960px) {
+
+#mapcanvas{
+	width: 100%;
+	height: 450px;
+	margin-bottom: 15px;
+}
+
+#tagline{
+	color: grey;
+}
+
+#last{
+	max-width:400px;
+	width:80%;
+	display:block;
+	margin:auto;
+}
+
+
+.hidden{
+	display:none;
+}
+
+.right{
+	float:right;
+	clear:right;
+}
+
+h1{
+	margin-bottom: 10px;
+}
+
+@media (max-width: 980px) {
 	body{
 		padding-top: 0px;
 	}
 }
 
-#mapcanvas{
-	width: 100%;
-	height: 450px;
+@media (max-width: 767px) {
+	#mapcanvas{
+		height: 400px;
+		
+	}
+	h1{
+		font-size: 20px;
+	}
+	
+	h3{
+		font-size: 16px;
+	}
+	#upcoming{
+		margin-bottom: 2px;
+	}
+	.event{
+		width:75%;
+	}
+	
+	
+}
+
+@media (max-width: 480px){
+	#mapcanvas{
+		height: 200px;
+	}
 }

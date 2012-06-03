@@ -8,41 +8,19 @@ var lastfm = new LastFM({
 	cache     : cache
 });
 
-function httpGet(theUrl){
-    var xmlHttp = null;
-
-    xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false );
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
-}
-
-
 function main(){
-
 
 	/*Geolocation allowed*/
 	function success(position) {
-		var lat;
-		var lon;
 
-		/*check for loaction change*/
-		var setLocation = $('#locationChange').html();
-		if(setLocation != null){
-			lat = $('#lat').html();
-			lon = $('#lng').html();
-		}
-		
-		else {	/*get lat and lon*/
-			lat = position.coords.latitude;
-			lon = position.coords.longitude;
-		}
-
+		/*get lat and lon*/
+		var lat = position.coords.latitude;
+		var lon = position.coords.longitude;
 		
 		/*map options*/
 		var myOptions = {
 		        center: new google.maps.LatLng(lat, lon),
-		        zoom: 10,
+		        zoom: 8,
 		        mapTypeId: google.maps.MapTypeId.ROADMAP
 		      };
 
@@ -55,21 +33,6 @@ function main(){
 			size: new google.maps.Size(50,50)
 		});
 
-		/*reverse geocode to get locality*/
-		geocoder = new google.maps.Geocoder();
-		var latlng = new google.maps.LatLng(lat, lon);
-		geocoder.geocode({'latLng': latlng}, function(results, status) {
-		  if (status == google.maps.GeocoderStatus.OK) {
-		    if (results[1]) {
-			  $('#near').html("Upcoming shows near " + results[1].address_components[0].short_name);
-		    } else {
-		      alert("No results found");
-		    }
-		  } else {
-		    alert("Geocoder failed due to: " + status);
-		  }
-		});
-
 		/*do last.fm stuff*/
 		lastfm.geo.getEvents({lat: lat, long: lon}, {success: function(data){
 			/*clear placeholder content*/
@@ -78,7 +41,7 @@ function main(){
 			/* Use data. */
 			// this for loop displays information for the first 10 events returned by lastfm.geo.getEvents
 			// default listing is by date
-			for (var i = 0; i < 6; i++){
+			for (var i = 0; i < 10; i++){
 			
 				//shorten the date - remove time, use data.events.event[i].startTime instead
 				var length = data.events.event[i].startDate.length;
@@ -86,29 +49,12 @@ function main(){
 				
 				//display events
 				$('#mainContent').append( 
-					"<div class='event'>" +
-					"<h3 class='eventTitle'>" + data.events.event[i].title + "</h3>" +
+					"<h3>" + data.events.event[i].title + "</h3>" +
  					"<p>" + shortDate + " at " +
-					"<a href="+ data.events.event[i].venue.url +">" + data.events.event[i].venue.name + "</a> in " +
-					data.events.event[i].venue.location.city + "</p> " +
-					"</div>"
+					data.events.event[i].venue.name + " in " +
+					data.events.event[i].venue.location.city + "</p>"
 				);
-
-				var description = "none";
-				if (data.events.event[i].description != ""){
-					description = data.events.event[i].description;
-				}
-
-				//add event to database
-				var url = "addevent.php?addEvent=add&" +
-							"event_name=" + data.events.event[i].title + "&" +
-							"date=" + data.events.event[i].startDate + "&" +
-							"venue=" + data.events.event[i].venue.name + "&" +
-							"address=" + data.events.event[i].venue.location.street + " " + data.events.event[i].venue.location.city + " " + data.events.event[i].venue.location.postalcode + "&" +
-							"lat=" + data.events.event[i].venue.location["geo:point"]["geo:lat"] + "&" +
-							"lon=" + data.events.event[i].venue.location["geo:point"]["geo:long"];
-				var doIt = httpGet(url);			
-
+				
 				/* Create markers to Google map */ 
 				//REFERENCE: 
 				//https://developers.google.com/maps/documentation/javascript/event
@@ -133,7 +79,7 @@ function main(){
 			}
 
 			/*printing some extra data can be helpful*/
-			//$('#dump').html(prettyPrint(data.events.event[0]));
+			$('#dump').html(prettyPrint(data.events.event[0]));
 
 
 		}, error: function(code, message){

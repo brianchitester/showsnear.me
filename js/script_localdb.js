@@ -8,36 +8,23 @@ var lastfm = new LastFM({
 	cache     : cache
 });
 
-function httpGet(theUrl){
-    var xmlHttp = null;
 
-    xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false );
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
+function changeLoc(){
+	
 }
 
-
 function main(){
-
+	$('#changeLoc').hide();
 
 	/*Geolocation allowed*/
 	function success(position) {
-		var lat;
-		var lon;
 
 		/*check for loaction change*/
-		var setLocation = $('#locationChange').html();
-		if(setLocation != null){
-			lat = $('#lat').html();
-			lon = $('#lng').html();
-		}
 		
-		else {	/*get lat and lon*/
-			lat = position.coords.latitude;
-			lon = position.coords.longitude;
-		}
 
+		/*get lat and lon*/
+		var lat = position.coords.latitude;
+		var lon = position.coords.longitude;
 		
 		/*map options*/
 		var myOptions = {
@@ -90,25 +77,10 @@ function main(){
 					"<h3 class='eventTitle'>" + data.events.event[i].title + "</h3>" +
  					"<p>" + shortDate + " at " +
 					"<a href="+ data.events.event[i].venue.url +">" + data.events.event[i].venue.name + "</a> in " +
-					data.events.event[i].venue.location.city + "</p> " +
+					data.events.event[i].venue.location.city + "</p>" +
 					"</div>"
 				);
-
-				var description = "none";
-				if (data.events.event[i].description != ""){
-					description = data.events.event[i].description;
-				}
-
-				//add event to database
-				var url = "addevent.php?addEvent=add&" +
-							"event_name=" + data.events.event[i].title + "&" +
-							"date=" + data.events.event[i].startDate + "&" +
-							"venue=" + data.events.event[i].venue.name + "&" +
-							"address=" + data.events.event[i].venue.location.street + " " + data.events.event[i].venue.location.city + " " + data.events.event[i].venue.location.postalcode + "&" +
-							"lat=" + data.events.event[i].venue.location["geo:point"]["geo:lat"] + "&" +
-							"lon=" + data.events.event[i].venue.location["geo:point"]["geo:long"];
-				var doIt = httpGet(url);			
-
+				
 				/* Create markers to Google map */ 
 				//REFERENCE: 
 				//https://developers.google.com/maps/documentation/javascript/event

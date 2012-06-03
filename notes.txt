@@ -1,0 +1,3 @@
+http://maps.googleapis.com/maps/api/geocode/json?address=Troy&sensor=false
+
+use this to get lat and lon bounds<---something to do with places api....must be some way to center

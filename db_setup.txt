@@ -1,0 +1,100 @@
+--
+-- Please copy all of these and paste to your database system 
+-- I, Jeongmin lee, set my database name as 'project'
+--
+
+
+--
+-- Database table creation commands
+--
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+
+CREATE TABLE genres (gid INT AUTO_INCREMENT NOT NULL,
+					genre VARCHAR(100) NOT NULL,
+					PRIMARY KEY (gid)
+					) ENGINE=MyISAM  DEFAULT CHARSET=latin1;					
+
+					
+CREATE TABLE users 	(uid INT AUTO_INCREMENT  NOT NULL, 
+					username VARCHAR(100) NOT NULL, 
+					password VARCHAR(100) NOT NULL, 
+					name VARCHAR(300) NOT NULL, 
+					location VARCHAR(300),
+					genre_id INT,
+					type VARCHAR(100), 
+					PRIMARY KEY (uid),
+					FOREIGN KEY (genre_id) REFERENCES genres(gid)
+					) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE artists (aid INT AUTO_INCREMENT NOT NULL,
+					name VARCHAR(200) NOT NULL,
+					genre_id INT,
+					tags_id INT,
+					link VARCHAR(400),
+					image_link VARCHAR(300),
+					PRIMARY KEY(aid),
+					FOREIGN KEY (tags_id) REFERENCES tags (tid)
+					) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+					
+CREATE TABLE events (eid INT AUTO_INCREMENT NOT NULL,
+					name VARCHAR(200) NOT NULL,
+					date DATETIME,
+					time DATETIME,
+					artists_id INT,
+					tags_id INT,
+					venue VARCHAR(200) NOT NULL,
+					address VARCHAR(300) NOT NULL,
+					lat FLOAT(10,6) NOT NULL,
+					lng FLOAT(10,6) NOT NULL,
+					description VARCHAR(300),
+					max_attendance INT,
+					current_attendance INT,
+					ticket_link VARCHAR(200),
+					image_link VARCHAR(300),
+					PRIMARY KEY (eid),
+					FOREIGN KEY (artists_id) REFERENCES artists (aid),
+					FOREIGN KEY (tags_id) REFERENCES tags (tid)
+					) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+CREATE TABLE comments (cid INT AUTO_INCREMENT NOT NULL,
+						eid INT NOT NULL,
+						uid INT NOT NULL,
+						description VARCHAR(150) NOT NULL,
+						PRIMARY KEY(cid),
+						FOREIGN KEY (eid) REFERENCES events(eid),
+						FOREIGN KEY (uid) REFERENCES users(uid)
+					)  ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+--
+-- Database sample tuple informations
+--
+
+INSERT INTO `genres` (`genre`) VALUES
+('Rock'),
+('POP'),
+('Jazz'),
+('Country'),
+('Blues');
+
+INSERT INTO `users` (`username`, `password`, `name`, `location`, `genre_id`, `type`) VALUES
+('admin', 'adminpw', 'admin John', 'Troy','1', 'admin'),
+('guest', 'guestpw', 'guest Kate', 'Albany','2', 'general');
+
+INSERT INTO `artists` (`name`,`genre_id`,`tags_id`,`link`,`image_link`) VALUES
+('Rolling Stone','1','4','http://www.roll.com','http://blahblah.com/test.jpg'),
+('Norah Jones','2','2','http://www.norahjones.com','http://blahblah.com/test.jpg');
+
+INSERT INTO `events` (`name`,`date`,`time`,`artists_id`,`venue`,`address`,`lat`,`lng`,`description`,`max_attendance`,`current_attendance`,`ticket_link`,`image_link`) VALUES
+('Rock on Albany','2010-11-11', '11:13:13','1','Troy Music Hall','2219, 15th street, Troy, NY 12180','42.729172','-73.682728','Best event ever! Should come to see!','300','30','http://www.buyticket.com','http://blahblah.com/test.jpg'),
+('Noras Friday Evening','2012-05-01','19:00:00','2','EMPAC, RPI','110, 14th street, Troy, NY 12180','42.648133','-73.782635','Come to listen with us','300','30','http://norahjonsconcert.com','http://blahblah.com/test.jpg');
+
+INSERT INTO `comments` (`eid`, `uid`,`description`) VALUES
+('1', '1', 'This is the worst event ever. I will never watch this band perform AGAIN.'),
+('1', '2', 'I had a great time! Wooh.');
